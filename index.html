@@ -3,39 +3,152 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SOB-X Plant Grower</title>
-  <style>
-    body {
-      background-color: #eafbe7;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      padding: 2rem;
-    }
-    h1 {
-      color: #2a7a2e;
-    }
-    p {
-      font-size: 1.2rem;
-      color: #333;
-    }
-    .hype {
-      margin-top: 2rem;
-      color: #e14c4c;
-      font-weight: bold;
-      font-size: 1.5rem;
-    }
-    .created-by {
-      margin-top: 2rem;
-      font-size: 1rem;
-      color: #555;
-    }
-  </style>
+  <title>SOB-X Plant Grower - Grow & Earn Crypto!</title>
+  <!-- Link to your main CSS file -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Favicon (create a favicon.ico and place it in your root or images folder) -->
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <!-- You might add custom fonts here from Google Fonts, etc. -->
+  <!-- e.g., <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"> -->
 </head>
 <body>
-  <h1>SOB-X Plant Grower</h1>
-  <p>Water it, feed it, give it light — and earn crypto as it grows!</p>
-  <p>Watch your plant thrive and unlock BIG SOBEX rewards.</p>
-  <div class="hype">Jump in early — big rewards waiting!</div>
-  <div class="created-by">Created by: BigDaddyAZ82</div>
+
+  <header class="site-header">
+    <nav class="main-nav">
+      <div class="logo-container">
+        <img src="images/logo.png" alt="SOB-X Plant Grower Logo" id="siteLogo" class="logo-img">
+        <span class="site-title">SOB-X Plant Grower</span>
+      </div>
+      <div class="wallet-info-container" id="walletInfoArea">
+        <span id="networkName" class="network-status" style="display:none;"></span>
+        <span id="walletAddress" class="wallet-address-display" style="display:none;">Connected: 0x...</span>
+        <span id="sobxBalanceDisplay" class="token-balance-display" style="display:none;">SOB-X: 0</span>
+        <button id="connectWalletBtn" class="button button-primary">Connect Wallet</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="site-main">
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Grow Your Plant, Grow Your SOB-X!</h1>
+        <p class="subtitle">Nurture your digital plant daily. Water it, feed it, and give it light to watch it flourish and earn SOB-X tokens.</p>
+        <button id="startGameBtn" class="button button-cta" style="display:none;">Start Growing My Plant!</button>
+        <div id="initialLoadingMessage" class="loading-message" style="display:none;">Loading game data...</div>
+      </div>
+    </section>
+
+    <section id="gameInterface" class="game-section" style="display:none;">
+      <div class="game-container">
+        <h2 class="section-title">My Digital Greenhouse</h2>
+
+        <div class="plant-status-area">
+          <div class="plant-visual">
+            <img id="plantImage" src="images/seedling.png" alt="My Digital Plant">
+            <p class="plant-stage-text">Stage: <span id="plantStage">Seedling</span></p>
+          </div>
+          <div class="plant-stats">
+            <h3>Plant Details</h3>
+            <p>Health: <span id="plantHealth">--%</span></p>
+            <p>Growth Points: <span id="plantGrowthPoints">--</span></p>
+            <p>Last Watered: <span id="lastWatered">--</span></p>
+            <p>Last Fed: <span id="lastFed">--</span></p>
+            <p>Last Light: <span id="lastLight">--</span></p>
+          </div>
+        </div>
+
+        <div class="game-actions">
+          <h3>Plant Care Actions</h3>
+          <div class="action-buttons-grid">
+            <button id="waterBtn" class="button game-action-button" data-action="water">
+              <img src="images/icon-water.svg" alt="" class="button-icon"> Water Plant
+              <span class="cooldown" id="waterCooldown" style="display:none;"></span>
+            </button>
+            <button id="feedBtn" class="button game-action-button" data-action="feed">
+              <img src="images/icon-feed.svg" alt="" class="button-icon"> Feed Plant (<span id="feedCost">--</span> SOB-X)
+              <span class="cooldown" id="feedCooldown" style="display:none;"></span>
+            </button>
+            <button id="lightBtn" class="button game-action-button" data-action="light">
+              <img src="images/icon-light.svg" alt="" class="button-icon"> Give Light
+              <span class="cooldown" id="lightCooldown" style="display:none;"></span>
+            </button>
+          </div>
+          <div id="sobxApproveSection" style="display:none;">
+            <p>You need to approve SOB-X spending for feeding.</p>
+            <input type="number" id="sobxApproveAmount" placeholder="Amount to approve" value="1000">
+            <button id="approveSobxBtn" class="button button-secondary">Approve SOB-X</button>
+          </div>
+        </div>
+
+        <div class="rewards-section">
+          <h3>Your Earnings</h3>
+          <p>Claimable Rewards: <strong id="claimableRewards">0</strong> SOB-X</p>
+          <button id="claimRewardsBtn" class="button button-cta">Claim My SOB-X!</button>
+        </div>
+
+        <div id="notificationsArea" class="notifications-panel">
+          <!-- Dynamic messages (success, error, info) will appear here -->
+          <p class="notification-placeholder">Game messages will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-to-play-section">
+      <h2 class="section-title">How to Get Started</h2>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>Connect Wallet</h4>
+          <p>Click "Connect Wallet" and approve the connection in your Web3 wallet (like MetaMask). Ensure you're on the Base Network.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>Get SOB-X (Optional)</h4>
+          <p>Some actions, like feeding your plant, may require SOB-X tokens. You can acquire them <a href="[LINK_TO_SOBX_INFO_OR_DEX]" target="_blank" rel="noopener noreferrer">here</a>.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>Nurture Your Plant</h4>
+          <p>Use the "Water," "Feed," and "Give Light" actions daily. Each action helps your plant grow and increases your potential rewards.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h4>Claim Rewards</h4>
+          <p>As your plant thrives, you'll accumulate SOB-X rewards. Click "Claim My SOB-X" to transfer them to your wallet.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-sobx-section">
+      <h2 class="section-title">About SOB-X Token</h2>
+      <p>SOB-X is the heart of our ecosystem, powering the Plant Grower game and future utilities. It's a token designed for community engagement and rewarding participation.</p>
+      <p>Token Contract: <code id="sobxTokenAddressDisplay">[YOUR_SOBX_TOKEN_ADDRESS]</code> <button id="copySobxAddressBtn" class="button-copy" title="Copy SOB-X Address">Copy</button></p>
+      <p><a href="[LINK_TO_SOBX_WHITEPAPER_OR_WEBSITE]" target="_blank" rel="noopener noreferrer" class="learn-more-link">Learn More About SOB-X →</a></p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p class="created-by">Game Created by: BigDaddyAZ82</p>
+      <div class="footer-links">
+        <a href="[LINK_TO_GAME_CONTRACT_ON_BASESCAN]" target="_blank" rel="noopener noreferrer">View Game Contract</a>
+        <span>•</span>
+        <a href="[LINK_TO_TERMS_OF_SERVICE]" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <span>•</span>
+        <a href="[LINK_TO_PRIVACY_POLICY]" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <span>•</span>
+        <a href="[YOUR_TWITTER_LINK]" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <span>•</span>
+        <a href="[YOUR_DISCORD_LINK]" target="_blank" rel="noopener noreferrer">Discord</a>
+      </div>
+      <p class="disclaimer">© <span id="currentYear"></span> SOB-X Plant Grower. All rights reserved. Crypto games involve risk; play responsibly.</p>
+    </div>
+  </footer>
+
+  <!-- Ethers.js library - ensure this is the version compatible with your code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js" integrity="sha512-FDcVY+g7vcQsWfE_ poligL7LCGIdneBZePHj1kM4G2AgqP_yUmptGyDqCRjH2B4G9ucWvVHC7aPWTrO9DRLrq2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Your custom JavaScript file for game logic -->
+  <script src="app.js"></script>
 </body>
 </html>
